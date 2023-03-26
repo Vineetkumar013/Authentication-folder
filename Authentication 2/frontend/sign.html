@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+  </head>
+  <body>
+    <form action="" id="register">
+      <label for="">Username</label>
+      <input id="name" type="text" placeholder="Enter your name here">
+      <label for="">Email</label>
+      <input id="email" type="text" placeholder="Enter your email here">
+      <label for="">Age</label>
+      <input id="age" type="number" placeholder="Enter your Age">
+    
+      <label for="">Password</label>
+      <input id="password" type="text" placeholder="Enter your password">
+     
+      <input type="submit">
+      
+  </form>
+
+  </body>
+</html>
+
+<script>
+const Register_btn = document.querySelector("#register");
+Register_btn.addEventListener("submit",RegisterFunction);
+
+// Make API request to server for registering the new user.
+async function RegisterFunction(event) {
+  try {
+    event.preventDefault();
+    let all_input_tags = document.querySelectorAll("#register input");
+    let userObj = {};
+    for (let i = 0; i < all_input_tags.length - 1; i++) {
+      userObj[all_input_tags[i].id] = all_input_tags[i].value;
+    }
+    let register_request = await fetch("http://localhost:7070/users/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userObj)
+    })
+    .then(res=>res.json())
+    .then(data=> { alert(data)})
+    .catch(err=>console.log(err))
+//     if(register_request.ok){
+//         alert(" User has been created ");
+//         // window.location.href = "#tologin";
+//     }else{
+//         alert("Bad request has been made.");
+//     }
+  } catch (error) {
+    alert("Something went wrong. Please try again later.");
+  }
+}
+
+
+</script>
